@@ -1,0 +1,60 @@
+body{
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+header{
+    text-align: center;
+    font-family: cursive;
+    font-size: 20px;
+    height: 120px;
+}
+
+#game_stats{
+    background-color: whitesmoke;
+    text-align: center;
+    display: block;
+    height: 60px;
+
+}
+
+#player_to_move, #total_number_of_moves{
+    padding: 50 px;
+    margin-left: 40px;
+    margin-right: 40px;
+    display: inline-block;
+    font-family: cursive;
+    font-size: 15px;
+    background-color: whitesmoke;
+}
+
+#playing_grid{
+    border-style: solid;
+    border-color: black;
+    display: inline-block;
+    align-self: center;
+}
+
+button{
+    height: 40px;
+    width: 40px;
+    display: block;
+    font-size: 30px;
+    font-family: cursive;
+    float: left;
+}
+
+.clicked_by_player_1{
+    color: red;
+}
+
+.clicked_by_player_2{
+    color: blue;
+}
+
+header > h2{
+    font-size: 20px;
+    display: block
+}
+
+
