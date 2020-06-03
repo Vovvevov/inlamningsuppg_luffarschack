@@ -80,14 +80,15 @@ function totalNumberOfMovesDisplay(){
 
 
 
-function decideIf5InARowHor(row, col){
+function decideIf5InARowHor(row, col) {
+
     let loopStart = col - 4;
 
     if (loopStart < 0){
         loopStart = 0
     }
 
-    let loopEnd = col + 5;
+    let loopEnd = col + 4;
 
     if (loopEnd > sideLengthOfPlayingGrid - 1){
         loopEnd = sideLengthOfPlayingGrid - 1
@@ -95,7 +96,7 @@ function decideIf5InARowHor(row, col){
 
     let checkedString = ""
 
-    for(let i = loopStart; i < loopEnd; i++){
+    for(let i = loopStart; i <= loopEnd; i++){
 
         checkedString = checkedString + playingGridArray[row][i].textContent;
 
@@ -132,13 +133,14 @@ function decideIf5InARowHor(row, col){
 }
 
 function decideIf5InARowVert(col, row){
+
     let loopStart = row - 4;
 
     if (loopStart < 0){
         loopStart = 0
     }
 
-    let loopEnd = row + 5;
+    let loopEnd = row + 4;
 
     if (loopEnd > sideLengthOfPlayingGrid - 1){
         loopEnd = sideLengthOfPlayingGrid - 1
@@ -146,7 +148,7 @@ function decideIf5InARowVert(col, row){
 
     let checkedString = ""
 
-    for(let i = loopStart; i < loopEnd; i++){
+    for(let i = loopStart; i <= loopEnd; i++){
 
         checkedString = checkedString + playingGridArray[i][col].textContent;
 
@@ -182,30 +184,129 @@ function decideIf5InARowVert(col, row){
     }
 }
 
-function decideIf5InARowDiagDown(col, row){
+function decideIf5InARowDiagUp(col, row) {
+
+    let loopStartRow = row + 4;
+    let loopStartCol = col -4;
+
+    if (loopStartRow > (sideLengthOfPlayingGrid - 1) || loopStartCol < 0){
+        if (-(loopStartRow - (sideLengthOfPlayingGrid - 1)) === loopStartCol) {
+            loopStartCol = 0;
+            loopStartRow = (sideLengthOfPlayingGrid - 1);
+        }
+        if (-(loopStartRow - (sideLengthOfPlayingGrid - 1)) > loopStartCol) {
+            loopStartCol = 0;
+            loopStartRow = (-(loopStartRow - (sideLengthOfPlayingGrid - 1)) - loopStartCol);
+        }
+        if (-(loopStartRow - (sideLengthOfPlayingGrid - 1)) < loopStartCol) {
+            loopStartRow = 0;
+            loopStartCol = loopStartCol - (-(loopStartRow - (sideLengthOfPlayingGrid - 1)));
+        }
+    }
+
+
+    let loopEndRow = row - 4;
+    let loopEndCol = col + 4;
+
+    if (loopEndRow < 0 || loopStartCol > (sideLengthOfPlayingGrid - 1)) {
+        if (-(loopEndRow - (sideLengthOfPlayingGrid - 1)) === loopEndCol) {
+            loopEndCol = (sideLengthOfPlayingGrid - 1);
+            loopEndRow = 0;
+
+        }
+        if (loopEndRow > (-(loopEndCol - (sideLengthOfPlayingGrid - 1)))) {
+            loopEndCol = (sideLengthOfPlayingGrid - 1);
+            loopEndRow = loopEndRow - (-(loopEndCol - (sideLengthOfPlayingGrid - 1)));
+        }
+        if (loopEndRow < (-(loopEndCol - (sideLengthOfPlayingGrid - 1)))) {
+            loopEndRow = 0;
+            loopEndCol = loopEndCol - (-(loopStartRow - (sideLengthOfPlayingGrid - 1)));
+        }
+    }
+   
+
+    let checkedString = ""
+
+    for (let i = loopStartCol, j = loopStartRow; i <= loopEndCol, j <= loopEndRow; i++, j--){
+
+        checkedString = checkedString + playingGridArray[i][j].textContent;
+        //console.log(checkedString);
+
+        if(checkedString.includes('OOOOO')){
+
+            fiveInARow = true;
+
+            if(playerOneHasRingsOrXs === 'rings'){
+                playerWhoHasWon = 'Spelare 1';
+            }
+            else if(playerOneHasRingsOrXs === 'xs'){
+                playerWhoHasWon = 'Spelare 2';
+            }
+
+            playerToMoveH2.textContent = `${playerWhoHasWon} har vunnit denna omgång!`;
+        }
+
+        else if(checkedString.includes('XXXXX')){
+
+            fiveInARow = true;
+    
+            if(playerOneHasRingsOrXs === 'xs'){
+                playerWhoHasWon = 'Spelare 1';
+            }
+            else if(playerOneHasRingsOrXs === 'rings'){
+                playerWhoHasWon = 'Spelare 2';
+            }
+
+            playerToMoveH2.textContent = `${playerWhoHasWon} har vunnit denna omgång!`;  
+        }
+        //console.log(checkedString)
+        //console.log(checkedString.includes("OOOOO"))
+    }
+}
+
+
+function decideIf5InARowDiagDown(col, row) {
+
     let loopStartRow = row -4;
     let loopStartCol = col -4;
 
-    if (loopStartRow < 0){
-        loopStartRow = 0;
-    }
-    if (loopStartCol < 0){
-        loopStartCol = 0;
+    if (loopStartRow < 0 || loopStartCol < 0){
+        if (loopStartRow === loopStartCol) {
+            loopStartRow = 0;
+            loopStartCol = 0;
+        }
+        if (loopStartRow > loopStartCol) {
+            loopStartCol = 0;
+            loopStartRow = row - col;
+        }
+        if (loopStartRow < loopStartCol) {
+            loopStartRow = 0;
+            loopStartCol = col - row;
+        }
     }
 
-    let loopEndRow = row + 5;
-    let loopEndCol = col + 5;
 
-    if (loopEndRow > sideLengthOfPlayingGrid - 1){
-        loopEndRow = sideLengthOfPlayingGrid - 1
-    }
-    if (loopEndCol > sideLengthOfPlayingGrid -1 ){
-        loopEndCol = sideLengthOfPlayingGrid - 1
+    let loopEndRow = row + 4;
+    let loopEndCol = col + 4;
+
+    if (loopEndRow > (sideLengthOfPlayingGrid - 1) || loopEndCol > (sideLengthOfPlayingGrid - 1)) {
+        if (loopEndRow === loopEndCol) {
+            loopEndRow = (sideLengthOfPlayingGrid - 1);
+            loopEndCol = (sideLengthOfPlayingGrid - 1);
+        }
+        if (loopEndRow > loopEndCol) {
+            loopEndRow = (sideLengthOfPlayingGrid - 1);
+            loopEndCol = (sideLengthOfPlayingGrid - 1) - (row - col);
+        }
+        if (loopEndRow < loopEndCol) {
+            loopEndCol = (sideLengthOfPlayingGrid - 1);
+            loopEndRow = (sideLengthOfPlayingGrid - 1) - (col - row);
+        }
     }
 
     let checkedString = ""
 
-    for (let i = loopStartCol, j = loopStartRow; i < loopEndCol, j < loopEndRow; i++, j++){
+    for (let i = loopStartCol, j = loopStartRow; i <= loopEndCol, j <= loopEndRow; i++, j++){
 
         checkedString = checkedString + playingGridArray[i][j].textContent;
         //console.log(checkedString);
